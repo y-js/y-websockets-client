@@ -7016,7 +7016,12 @@ function extend (Y) {
       var socket = io(options.url)
       this.socket = socket
       var self = this
-      socket.on('connect', function () {
+      if (socket.connected) {
+        joinRoom()
+      } else {
+        socket.on('connect', joinRoom)
+      }
+      function joinRoom () {
         socket.emit('joinRoom', options.room)
         self.setUserId(socket.id)
         self.userJoined('server', 'master')
@@ -7030,7 +7035,7 @@ function extend (Y) {
         socket.on('disconnect', function (peer) {
           self.userLeft('server')
         })
-      })
+      }
     }
     disconnect () {
       this.socket.disconnect()
