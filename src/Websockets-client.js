@@ -21,11 +21,13 @@ function extend (Y) {
       var self = this
       socket.on('connect', function () {
         socket.emit('joinRoom', options.room)
-        self.setUserId(socket.id)
         self.userJoined('server', 'master')
 
         socket.on('yjsEvent', function (message) {
           if (message.type != null) {
+            if (message.type === 'sync done') {
+              self.setUserId(socket.id)        
+            }
             self.receiveMessage('server', message)
           }
         })
