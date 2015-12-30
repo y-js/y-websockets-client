@@ -16,10 +16,16 @@ function extend (Y) {
       super(y, options)
       this.options = options
 
-      var socket = io(options.url || 'http://yatta.ninja:1234')
+      options.url = options.url || 'http://yatta.ninja:1234'
+      var socket = io(options.url)
       this.socket = socket
       var self = this
-      socket.on('connect', function () {
+      if (socket.connected) {
+        joinRoom()
+      } else {
+        socket.on('connect', joinRoom)
+      }
+      function joinRoom () {
         socket.emit('joinRoom', options.room)
         self.userJoined('server', 'master')
 
@@ -28,14 +34,16 @@ function extend (Y) {
             if (message.type === 'sync done') {
               self.setUserId(socket.id)        
             }
-            self.receiveMessage('server', message)
+            if (message.room === options.room) {
+              self.receiveMessage('server', message)
+            }
           }
         })
 
         socket.on('disconnect', function (peer) {
           self.userLeft('server')
         })
-      })
+      }
     }
     disconnect () {
       this.socket.disconnect()
@@ -48,9 +56,11 @@ function extend (Y) {
       super.reconnect()
     }
     send (uid, message) {
+      message.room = this.options.room
       this.socket.emit('yjsEvent', message)
     }
     broadcast (message) {
+      message.room = this.options.room
       this.socket.emit('yjsEvent', message)
     }
     isDisconnected () {
