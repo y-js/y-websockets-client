@@ -7023,12 +7023,16 @@ function extend (Y) {
       }
       function joinRoom () {
         socket.emit('joinRoom', options.room)
-        self.setUserId(socket.id)
         self.userJoined('server', 'master')
 
         socket.on('yjsEvent', function (message) {
-          if (message.type != null && message.room === options.room) {
-            self.receiveMessage('server', message)
+          if (message.type != null) {
+            if (message.type === 'sync done') {
+              self.setUserId(socket.id)        
+            }
+            if (message.room === options.room) {
+              self.receiveMessage('server', message)
+            }
           }
         })
 
