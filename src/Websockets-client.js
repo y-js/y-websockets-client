@@ -16,7 +16,7 @@ function extend (Y) {
       super(y, options)
       this.options = options
 
-      options.url = options.url || 'http://yatta.ninja:1234'
+      options.url = options.url || 'http://yatta.ninja:3456'
       var socket = io(options.url)
       this.socket = socket
       var self = this
