@@ -32,7 +32,7 @@ function extend (Y) {
         socket.on('yjsEvent', function (message) {
           if (message.type != null) {
             if (message.type === 'sync done') {
-              self.setUserId(socket.id)        
+              self.setUserId(socket.id)
             }
             if (message.room === options.room) {
               self.receiveMessage('server', message)
