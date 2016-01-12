@@ -11222,8 +11222,17 @@ function extend (Y) {
       options.role = 'slave'
       super(y, options)
       this.options = options
-
-      options.url = options.url || 'http://yatta.ninja:3456'
+      if (options.url == null) {
+        var protocol = '073' // version 0.7.3
+        // if not defined, try to match protocol
+        if (typeof window !== 'undefined' || window.location.protocol === 'http:') {
+          // always runs on port "6"+protocol
+          options.url = 'https://yjs.dbis.rwth-aachen.de:6' + protocol
+        } else {
+          // always runs on port "5"+protocol
+          options.url = 'http://yjs.dbis.rwth-aachen.de:5' + protocol
+        }
+      }
       var socket = io(options.url)
       this.socket = socket
       var self = this
