@@ -2,7 +2,7 @@
 'use strict'
 
 // socket.io requires utf8. This package checks if it is required by requirejs.
-// If window.require is set, then it will define itself as a module. This is erratic behavior and 
+// If window.require is set, then it will define itself as a module. This is erratic behavior and
 // results in socket.io having a "bad request".
 // This is why we undefine global.define (it is set by requirejs) before we require socket.io-client.
 var define = global.define
