@@ -7247,10 +7247,19 @@ yeast.decode = decode;
 module.exports = yeast;
 
 },{}],46:[function(require,module,exports){
-/* global Y */
+(function (global){
+/* global Y, global */
 'use strict'
 
+// socket.io requires utf8. This package checks if it is required by requirejs.
+// If window.require is set, then it will define itself as a module. This is erratic behavior and
+// results in socket.io having a "bad request".
+// This is why we undefine global.define (it is set by requirejs) before we require socket.io-client.
+var define = global.define
+global.define = null
 var io = require('socket.io-client')
+// redefine global.define
+global.define = define
 
 function extend (Y) {
   class Connector extends Y.AbstractConnector {
@@ -7323,6 +7332,8 @@ module.exports = extend
 if (typeof Y !== 'undefined') {
   extend(Y)
 }
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
 },{"socket.io-client":34}],47:[function(require,module,exports){
 
