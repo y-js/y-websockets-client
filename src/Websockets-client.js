@@ -23,8 +23,7 @@ function extend (Y) {
       options.role = 'slave'
       super(y, options)
       this.options = options
-      var protocol = '073' // version 0.7.3
-      options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:6' + protocol
+      options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5074'
       var socket = io(options.url)
       this.socket = socket
       var self = this
