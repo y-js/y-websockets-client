@@ -7282,34 +7282,33 @@ function extend (Y) {
       } else {
         socket.on('connect', joinRoom)
       }
+
       function joinRoom () {
         socket.emit('joinRoom', options.room)
         self.userJoined('server', 'master')
-
-        socket.on('yjsEvent', function (message) {
-          if (message.type != null) {
-            if (message.type === 'sync done') {
-              self.setUserId(socket.id)
-            }
-            if (message.room === options.room) {
-              self.receiveMessage('server', message)
-            }
-          }
-        })
-
-        socket.on('disconnect', function (peer) {
-          self.userLeft('server')
-        })
       }
+      socket.on('yjsEvent', function (message) {
+        if (message.type != null) {
+          if (message.type === 'sync done') {
+            self.setUserId(socket.id)
+          }
+          if (message.room === options.room) {
+            self.receiveMessage('server', message)
+          }
+        }
+      })
+
+      socket.on('disconnect', function (peer) {
+        self.userLeft('server')
+      })
     }
     disconnect () {
+      this.socket.emit('leaveRoom', this.options.room)
       this.socket.disconnect()
       super.disconnect()
     }
     reconnect () {
       this.socket.connect()
-      this.socket.emit('joinRoom', this.options.room)
-      this.userJoined('server', 'master')
       super.reconnect()
     }
     send (uid, message) {
