@@ -27,17 +27,20 @@ function extend (Y) {
       var socket = io(options.url)
       this.socket = socket
       var self = this
-      if (socket.connected) {
-        joinRoom()
-      } else {
-        socket.on('connect', joinRoom)
-      }
 
-      function joinRoom () {
+      this._onConnect = function joinRoom () {
         socket.emit('joinRoom', options.room)
         self.userJoined('server', 'master')
       }
-      socket.on('yjsEvent', function (message) {
+
+      socket.on('connect', this._onConnect)
+      if (socket.connected) {
+        this._onConnect()
+      } else {
+        socket.connect()
+      }
+
+      this._onYjsEvent = function (message) {
         if (message.type != null) {
           if (message.type === 'sync done') {
             self.setUserId(socket.id)
@@ -46,16 +49,26 @@ function extend (Y) {
             self.receiveMessage('server', message)
           }
         }
-      })
+      }
+      socket.on('yjsEvent', this._onYjsEvent)
 
-      socket.on('disconnect', function (peer) {
+      this._onDisconnect = function (peer) {
         self.userLeft('server')
-      })
+      }
+      socket.on('disconnect', this._onDisconnect)
     }
     disconnect () {
       this.socket.emit('leaveRoom', this.options.room)
       this.socket.disconnect()
       super.disconnect()
+    }
+    destroy () {
+      this.disconnect()
+      this.socket.off('disconnect', this._onDisconnect)
+      this.socket.off('yjsEvent', this._onYjsEvent)
+      this.socket.off('connect', this._onConnect)
+      this.socket.destroy()
+      this.socket = null
     }
     reconnect () {
       this.socket.connect()
