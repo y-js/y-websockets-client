@@ -8,3 +8,4 @@ build_test
 .jshintignore
 .jshintrc
 .validate.json
+.vscode
