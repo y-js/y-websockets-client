@@ -7020,7 +7020,7 @@ function extend (Y) {
       options.role = 'slave'
       super(y, options)
       this.options = options
-      options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5074'
+      options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5076'
       var socket = io(options.url)
       this.socket = socket
       var self = this
