@@ -1,6 +1,6 @@
 {
   "name": "y-websockets-client",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "description": "Websockets connector for Yjs (browser/node client)",
   "main": "./src/Websockets-client.js",
   "scripts": {
@@ -58,6 +58,6 @@
     "utf-8-validate": "^1.2.1"
   },
   "peerDependencies": {
-    "yjs": "~9.0"
+    "yjs": "^9.0.0 || ^10.0.0"
   }
 }
