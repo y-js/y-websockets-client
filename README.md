@@ -38,10 +38,10 @@ Y({
   connector: {
     name: 'websockets-client', // choose the websockets-client connector
     room: 'Textarea-example-dev',
-	// socket: http://localhost:1234 // Pass socket object to use
-	// url: http://localhost:1234 // the connection endpoint (see y-websockets-server)
-	// if `url` is not set, the default connection endpoint is chosen
-	// (provided by the i5 chair of informatics, RTWH University)
+    // socket: io('http://localhost:1234') // Pass socket.io object to use
+    // url: http://localhost:1234 // the connection endpoint (see y-websockets-server)
+    // if `url` is not set, the default connection endpoint is chosen
+    // (provided by the i5 chair of informatics, RTWH University)
   },
   sourceDir: '/bower_components', // location of the y-* modules
   share: {

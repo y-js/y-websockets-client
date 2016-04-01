@@ -59,8 +59,9 @@ function extend (Y) {
     }
     disconnect () {
       this.socket.emit('leaveRoom', this.options.room)
-	  if (!this.options.socket)
+      if (!this.options.socket) {
         this.socket.disconnect()
+      }
       super.disconnect()
     }
     destroy () {
@@ -68,8 +69,9 @@ function extend (Y) {
       this.socket.off('disconnect', this._onDisconnect)
       this.socket.off('yjsEvent', this._onYjsEvent)
       this.socket.off('connect', this._onConnect)
-	  if (!this.options.socket)
+      if (!this.options.socket) {
         this.socket.destroy()
+      }
       this.socket = null
     }
     reconnect () {
