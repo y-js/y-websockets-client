@@ -24,7 +24,7 @@ function extend (Y) {
       super(y, options)
       this.options = options
       options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5076'
-      var socket = io(options.url)
+      var socket = options.socket || io(options.url)
       this.socket = socket
       var self = this
 
@@ -59,7 +59,8 @@ function extend (Y) {
     }
     disconnect () {
       this.socket.emit('leaveRoom', this.options.room)
-      this.socket.disconnect()
+	  if (!this.options.socket)
+        this.socket.disconnect()
       super.disconnect()
     }
     destroy () {
@@ -67,7 +68,8 @@ function extend (Y) {
       this.socket.off('disconnect', this._onDisconnect)
       this.socket.off('yjsEvent', this._onYjsEvent)
       this.socket.off('connect', this._onConnect)
-      this.socket.destroy()
+	  if (!this.options.socket)
+        this.socket.destroy()
       this.socket = null
     }
     reconnect () {
