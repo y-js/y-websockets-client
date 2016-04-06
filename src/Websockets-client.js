@@ -43,7 +43,13 @@ function extend (Y) {
       this._onYjsEvent = function (message) {
         if (message.type != null) {
           if (message.type === 'sync done') {
-            self.setUserId(socket.id)
+            var userId = socket.id
+            if (socket._yjs_connection_counter == null) {
+              socket._yjs_connection_counter = 1
+            } else {
+              userId += socket._yjs_connection_counter++
+            }
+            self.setUserId(userId)
           }
           if (message.room === options.room) {
             self.receiveMessage('server', message)
@@ -90,6 +96,7 @@ function extend (Y) {
       return this.socket.disconnected
     }
   }
+  Connector.io = io
   Y.extend('websockets-client', Connector)
 }
 
