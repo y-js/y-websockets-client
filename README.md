@@ -33,21 +33,19 @@ bower install y-websockets-client --save
 ```
 Y({
   db: {
-    name: 'memory'
+    name: 'memory' // use the memory db adapter
   },
   connector: {
-    name: 'websockets-client', // choose the websockets-client connector
+    name: 'websockets-client', // use the websockets-client connector
     room: 'Textarea-example-dev',
     // socket: io('http://localhost:1234') // Pass socket.io object to use
     // url: http://localhost:1234 // the connection endpoint (see y-websockets-server)
     // if `url` is not set, the default connection endpoint is chosen
-    // (provided by the i5 chair of informatics, RTWH University)
+    // (provided by the i5 chair of computer science, RTWH University)
   },
-  sourceDir: '/bower_components', // location of the y-* modules
   share: {
     textarea: 'Text' // y.share.textarea is of type Y.Text
   }
-  // types: ['Richtext', 'Array'] // optional list of types you want to import
 }).then(function (y) {
   // bind the textarea to a shared text element
   y.share.textarea.bind(document.getElementById('textfield'))

@@ -991,7 +991,7 @@ function Socket(uri, opts){
   this.cert = opts.cert || null;
   this.ca = opts.ca || null;
   this.ciphers = opts.ciphers || null;
-  this.rejectUnauthorized = opts.rejectUnauthorized === undefined ? null : opts.rejectUnauthorized;
+  this.rejectUnauthorized = opts.rejectUnauthorized === undefined ? true : opts.rejectUnauthorized;
 
   // other options for Node.js client
   var freeGlobal = typeof global == 'object' && global;
@@ -2762,11 +2762,16 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 
 /**
  * Get either the `WebSocket` or `MozWebSocket` globals
- * in the browser or the WebSocket-compatible interface
- * exposed by `ws` for Node environment.
+ * in the browser or try to resolve WebSocket-compatible
+ * interface exposed by `ws` for Node-like environment.
  */
 
-var WebSocket = BrowserWebSocket || (typeof window !== 'undefined' ? null : require('ws'));
+var WebSocket = BrowserWebSocket;
+if (!WebSocket && typeof window === 'undefined') {
+  try {
+    WebSocket = require('ws');
+  } catch (e) { }
+}
 
 /**
  * Module exports.
@@ -6521,10 +6526,10 @@ exports.types = [
   'CONNECT',
   'DISCONNECT',
   'EVENT',
-  'BINARY_EVENT',
   'ACK',
-  'BINARY_ACK',
-  'ERROR'
+  'ERROR',
+  'BINARY_EVENT',
+  'BINARY_ACK'
 ];
 
 /**
