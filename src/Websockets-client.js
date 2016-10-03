@@ -24,7 +24,9 @@ function extend (Y) {
       super(y, options)
       this.options = options
       options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5072'
-      var socket = options.socket || io(options.url)
+      var socket = options.socket || io(options.url, {
+        timeout: 200
+      })
       this.socket = socket
       var self = this
 
@@ -59,7 +61,7 @@ function extend (Y) {
       socket.on('yjsEvent', this._onYjsEvent)
 
       this._onDisconnect = function (peer) {
-        self.userLeft('server')
+        Y.AbstractConnector.prototype.disconnect.call(self)
       }
       socket.on('disconnect', this._onDisconnect)
     }
