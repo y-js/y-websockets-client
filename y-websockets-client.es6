@@ -7275,6 +7275,7 @@ function extend (Y) {
       if (options.room == null) {
         throw new Error('You must define a room name!')
       }
+      options = Y.utils.copyObject(options)
       options.role = 'slave'
       super(y, options)
       this.options = options
