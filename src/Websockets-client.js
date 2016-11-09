@@ -25,9 +25,7 @@ function extend (Y) {
       super(y, options)
       this.options = options
       options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5072'
-      var socket = options.socket || io(options.url, {
-        timeout: 200
-      })
+      var socket = options.socket || io(options.url)
       this.socket = socket
       var self = this
 
