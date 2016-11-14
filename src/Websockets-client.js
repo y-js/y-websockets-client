@@ -24,8 +24,9 @@ function extend (Y) {
       options.role = 'slave'
       super(y, options)
       this.options = options
+      options.options = Y.utils.copyObject(options.options)
       options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5072'
-      var socket = options.socket || io(options.url)
+      var socket = options.socket || io(options.url, options.options)
       this.socket = socket
       var self = this
 
