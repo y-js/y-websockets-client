@@ -8,7 +8,7 @@ require('../yjs/gulpfile.helper.js')(gulp, {
   polyfills: [],
   entry: './src/Websockets-client.js',
   targetName: 'y-websockets-client.js',
-  moduleName: 'y-websockets-client',
+  moduleName: 'yWebsocketsClient',
   specs: []
 })
 
