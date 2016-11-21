@@ -22,6 +22,7 @@ function extend (Y) {
       }
       options = Y.utils.copyObject(options)
       options.role = 'slave'
+      options.forwardToSyncingClients = options.forwardToSyncingClients || false
       super(y, options)
       this.options = options
       options.options = Y.utils.copyObject(options.options)
