@@ -23,6 +23,7 @@ function extend (Y) {
       options = Y.utils.copyObject(options)
       options.role = 'slave'
       options.forwardToSyncingClients = options.forwardToSyncingClients || false
+      options.preferUntransformed = true
       super(y, options)
       this.options = options
       options.options = Y.utils.copyObject(options.options)
@@ -90,10 +91,12 @@ function extend (Y) {
     send (uid, message) {
       message.room = this.options.room
       this.socket.emit('yjsEvent', message)
+      super.send(uid, message)
     }
     broadcast (message) {
       message.room = this.options.room
       this.socket.emit('yjsEvent', message)
+      super.broadcast(message)
     }
     isDisconnected () {
       return this.socket.disconnected
