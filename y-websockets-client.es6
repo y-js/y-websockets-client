@@ -1,6 +1,6 @@
 /**
  * yjs - A framework for real-time p2p shared editing on any data
- * @version v12.1.3
+ * @version v12.1.7
  * @link http://y-js.org
  * @license MIT
  */
@@ -7284,6 +7284,7 @@ function extend (Y) {
       options = Y.utils.copyObject(options)
       options.role = 'slave'
       options.forwardToSyncingClients = options.forwardToSyncingClients || false
+      options.preferUntransformed = true
       super(y, options)
       this.options = options
       options.options = Y.utils.copyObject(options.options)
@@ -7351,10 +7352,12 @@ function extend (Y) {
     send (uid, message) {
       message.room = this.options.room
       this.socket.emit('yjsEvent', message)
+      super.send(uid, message)
     }
     broadcast (message) {
       message.room = this.options.room
       this.socket.emit('yjsEvent', message)
+      super.broadcast(message)
     }
     isDisconnected () {
       return this.socket.disconnected
