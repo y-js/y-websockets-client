@@ -72,7 +72,7 @@ function extend (Y) {
       if (!this.options.socket) {
         this.socket.disconnect()
       }
-      super.disconnect()
+      return super.disconnect()
     }
     destroy () {
       this.disconnect()
@@ -86,7 +86,7 @@ function extend (Y) {
     }
     reconnect () {
       this.socket.connect()
-      super.reconnect()
+      return super.reconnect()
     }
     send (uid, message) {
       message.room = this.options.room
