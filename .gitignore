@@ -9,3 +9,5 @@ build_test
 .jshintrc
 .validate.json
 .vscode
+.eslintcache
+yarn.lock
