@@ -11,7 +11,6 @@ export default function extend (Y) {
       }
       options = Y.utils.copyObject(options)
       options.role = 'slave'
-      options.forwardToSyncingClients = options.forwardToSyncingClients || false
       options.preferUntransformed = true
       options.generateUserId = options.generateUserId || false
       super(y, options)
@@ -25,6 +24,10 @@ export default function extend (Y) {
       this._onConnect = function joinRoom () {
         socket.emit('joinRoom', options.room)
         self.userJoined('server', 'master')
+        self.connections.get('server').syncStep2.promise.then(() => {
+          // set user id when synced with server
+          self.setUserId(Y.utils.generateUserId())
+        })
       }
 
       socket.on('connect', this._onConnect)
@@ -34,14 +37,11 @@ export default function extend (Y) {
         socket.connect()
       }
 
-      this._onYjsEvent = function (message) {
-        if (message.type != null) {
-          if (message.type === 'sync done') {
-            self.setUserId(Y.utils.generateGuid())
-          }
-          if (message.room === options.room) {
-            self.receiveMessage('server', message)
-          }
+      this._onYjsEvent = function (buffer) {
+        let decoder = new Y.utils.BinaryDecoder(buffer)
+        let roomname = decoder.readVarString()
+        if (roomname === options.room) {
+          self.receiveMessage('server', buffer)
         }
       }
       socket.on('yjsEvent', this._onYjsEvent)
@@ -73,14 +73,12 @@ export default function extend (Y) {
       super.reconnect()
     }
     send (uid, message) {
-      message.room = this.options.room
-      this.socket.emit('yjsEvent', message)
       super.send(uid, message)
+      this.socket.emit('yjsEvent', message)
     }
     broadcast (message) {
-      message.room = this.options.room
-      this.socket.emit('yjsEvent', message)
       super.broadcast(message)
+      this.socket.emit('yjsEvent', message)
     }
     isDisconnected () {
       return this.socket.disconnected
