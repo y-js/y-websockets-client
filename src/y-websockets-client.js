@@ -104,7 +104,7 @@ export default function extend (Y) {
       }
     }
     isDisconnected () {
-      return this.socket.disconnected && this.options.connect
+      return this.socket.disconnected
     }
   }
   Connector.io = io
