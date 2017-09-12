@@ -61,9 +61,12 @@ export default function extend (Y) {
     /*
      * Call this if you set options.initSync = false. Yjs will sync with the server after calling this method.
      */
-    initSync () {
+    initSync (opts) {
       if (!this.options.initSync) {
         this.options.initSync = true
+        if (opts.room != null) {
+          this.options.room = opts.room
+        }
       }
       if (this.socket.connected) {
         this._onConnect()
