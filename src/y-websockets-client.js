@@ -6,9 +6,6 @@ export default function extend (Y) {
       if (options === undefined) {
         throw new Error('Options must not be undefined!')
       }
-      if (options.room == null) {
-        throw new Error('You must define a room name!')
-      }
       options = Y.utils.copyObject(options)
       options.role = 'slave'
       options.preferUntransformed = true
@@ -25,6 +22,9 @@ export default function extend (Y) {
 
       this._onConnect = () => {
         if (options.initSync) {
+          if (options.room == null) {
+            throw new Error('You must define a room name!')
+          }
           this._sentSync = true
           // only sync with server when connect = true
           socket.emit('joinRoom', options.room)
