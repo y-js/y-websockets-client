@@ -80,6 +80,11 @@ export default function extend (Y) {
       super.broadcast(message)
       this.socket.emit('yjsEvent', message)
     }
+    whenRemoteResponsive () {
+      return new Promise(resolve => {
+        this.socket.emit('yjsResponsive', this.options.room, resolve)
+      })
+    }
     isDisconnected () {
       return this.socket.disconnected
     }
