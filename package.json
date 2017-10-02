@@ -1,6 +1,6 @@
 {
   "name": "y-websockets-client",
-  "version": "9.0.0-0",
+  "version": "9.0.0-1",
   "description": "Websockets connector for Yjs (browser/node client)",
   "main": "./y-websockets-client.node.js",
   "browser": "./y-websockets-client.js",
