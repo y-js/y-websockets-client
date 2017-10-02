@@ -1,8 +1,10 @@
 {
   "name": "y-websockets-client",
-  "version": "8.0.16",
+  "version": "9.0.0-0",
   "description": "Websockets connector for Yjs (browser/node client)",
-  "main": "./src/Websockets-client.js",
+  "main": "./y-websockets-client.node.js",
+  "browser": "./y-websockets-client.js",
+  "module": "./src/y-websockets-client.js",
   "scripts": {
     "test": "npm run lint",
     "dist": "rollup -c rollup.browser.js && rollup -c rollup.node.js",
@@ -53,6 +55,6 @@
     "tag-dist-files": "^0.1.6"
   },
   "peerDependencies": {
-    "yjs": "^13.0.0-6"
+    "yjs": "^13.0.0-8"
   }
 }
