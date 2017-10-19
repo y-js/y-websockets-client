@@ -6,7 +6,6 @@ export default function extend (Y) {
       if (options === undefined) {
         throw new Error('Options must not be undefined!')
       }
-      options = Y.utils.copyObject(options)
       options.role = 'slave'
       options.preferUntransformed = true
       options.generateUserId = options.generateUserId || false
@@ -14,7 +13,6 @@ export default function extend (Y) {
       super(y, options)
       this._sentSync = false
       this.options = options
-      options.options = Y.utils.copyObject(options.options)
       options.url = options.url || 'https://yjs.dbis.rwth-aachen.de:5072'
       var socket = options.socket || io(options.url, options.options)
       this.socket = socket
@@ -116,7 +114,8 @@ export default function extend (Y) {
     }
   }
   Connector.io = io
-  Y.extend('websockets-client', Connector)
+  Y['websockets-client'] = Connector
+  // Y.extend('websockets-client', Connector)
 }
 
 if (typeof Y !== 'undefined') {
