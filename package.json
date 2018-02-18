@@ -13,6 +13,10 @@
     "postversion": "npm run dist",
     "postpublish": "tag-dist-files --overwrite-existing-tag"
   },
+  "files": [
+    "y-websockets-client.*",
+    "src/*"
+  ],
   "standard": {
     "ignore": [
       "y-websockets-client.js",
