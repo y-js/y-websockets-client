@@ -18,7 +18,7 @@ export default function extend (Y) {
       this.socket = socket
       var self = this
 
-      this._onConnect = () => {
+      this._onConnect = function() {
         if (options.initSync) {
           if (options.room == null) {
             throw new Error('You must define a room name!')
