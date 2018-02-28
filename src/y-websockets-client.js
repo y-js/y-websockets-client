@@ -18,12 +18,12 @@ export default function extend (Y) {
       this.socket = socket
       var self = this
 
-      this._onConnect = () => {
+      this._onConnect = function () {
         if (options.initSync) {
           if (options.room == null) {
             throw new Error('You must define a room name!')
           }
-          this._sentSync = true
+          self._sentSync = true
           // only sync with server when connect = true
           socket.emit('joinRoom', options.room)
           self.userJoined('server', 'master')
@@ -32,8 +32,8 @@ export default function extend (Y) {
             self.setUserId(Y.utils.generateUserId())
           })
         }
-        socket.on('yjsEvent', this._onYjsEvent)
-        socket.on('disconnect', this._onDisconnect)
+        socket.on('yjsEvent', self._onYjsEvent)
+        socket.on('disconnect', self._onDisconnect)
       }
 
       socket.on('connect', this._onConnect)
